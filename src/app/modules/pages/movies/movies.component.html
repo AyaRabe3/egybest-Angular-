@@ -1,0 +1,60 @@
+<div class="card shadow border-0 w-80">
+    <div class="card-header border-0">
+      <h5>
+        Movies
+      </h5>
+    </div>
+    <div class="card-body">
+        <div class=" row d-flex">
+          <div class="col-md-4">
+            <div class="form-group form-group-sm">
+              <label for="exampleInputEmail1">Movie Name</label>
+              <input type="email" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group form-group-sm">
+                <label for="inputState">Category Name</label>
+                <select id="inputState" class="form-control form-control-sm">
+                  <option selected>first</option>
+                  <option>second</option>
+                </select>
+              </div>
+        </div>
+          <div class="col-4 align-self-center">
+            <div class="">
+              <button type="submit" class="btn btn-sm btn-outline-primary  mx-2 mt-3">search <i class="fas fas-sm fa-search mt-1"></i></button>
+            </div>
+          </div>
+        </div>
+    
+        <div class="d-flex justify-content-between">
+          <div></div>
+        <div class="my-3">
+          <button class="btn btn-sm btn-primary" routerLink="add"> <i class="fas fa-plus mx-1"></i>Add Category</button>
+        </div>
+        </div>
+        <div class="row">
+            <table class="table border-0 mx-3">
+                <thead class="border-0">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category Name</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let m of moviesList ,index as i">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{m.name}}</td>
+                    <td>{{m.categoryName}}</td>
+                    <td ><i class="fas fa-edit text-info" routerLink="edit"></i></td>
+                    <td><i class="fas fa-trash-alt text-danger"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    </div>
