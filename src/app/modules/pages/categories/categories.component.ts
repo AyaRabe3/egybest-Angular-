@@ -18,7 +18,9 @@ export class Categories{
 export class CategoriesComponent implements OnInit {
   categoriesList : Categories[] | any;
   constructor(private service :CategoriesServiceService ,public readonly swalTargets: SwalPortalTargets) { }
-  ngOnInit(): void {
+  ngOnInit(
+
+  ): void {
     this.getCategoriesFromServer();
   }
   confirmBoxOfDelete(id:string){  
@@ -57,7 +59,8 @@ export class CategoriesComponent implements OnInit {
    
     this.service.deleteCategoryById(id).subscribe((res)=>{
       console.log("categories from server",res)
-      
+        this.getCategoriesFromServer();
+
     },
     (error)=>{console.log(error)}
     )
