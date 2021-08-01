@@ -40,7 +40,7 @@
                 <th scope="row">{{i+1}}</th>
                 <td>{{cat.name}}</td>
                 <td ><i class="fas fa-edit text-info" routerLink="edit"></i></td>
-                <td><i class="fas fa-trash-alt text-danger" (click)="deleteCategory(cat._id)"></i></td>
+                <td><i class="fas fa-trash-alt text-danger" (click)="confirmBoxOfDelete(cat._id)"></i></td>
               </tr>
             </tbody>
           </table>

@@ -21,7 +21,7 @@ export class CategoriesComponent implements OnInit {
   ngOnInit(): void {
     this.getCategoriesFromServer();
   }
-  confirmBox(){  
+  confirmBoxOfDelete(id:string){  
     Swal.fire({  
       title: 'Are you sure want to remove?',  
       text: 'You will not be able to recover this file!',  
@@ -31,11 +31,7 @@ export class CategoriesComponent implements OnInit {
       cancelButtonText: 'No, keep it'  
     }).then((result) => {  
       if (result.value) {  
-        Swal.fire(  
-          'Deleted!',  
-          'Your imaginary file has been deleted.',  
-          'success'  
-        )  
+        this.deleteCategory(id)
       } else if (result.dismiss === Swal.DismissReason.cancel) {  
         Swal.fire(  
           'Cancelled',  
@@ -58,8 +54,7 @@ export class CategoriesComponent implements OnInit {
   
   deleteCategory(id:string){
     console.log(this.categoriesList)
-
-    this.confirmBox()
+   
     this.service.deleteCategoryById(id).subscribe((res)=>{
       console.log("categories from server",res)
       
