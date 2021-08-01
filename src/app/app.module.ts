@@ -8,6 +8,7 @@ import { LayoutModule } from './modules/layout/layout.module';
 import { AddCategoryComponent } from './modules/pages/categories/add-category/add-category.component';
 import { CategoriesModule } from './modules/pages/categories/categories.module';
 import {HttpClientModule} from '@angular/common/http'
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,9 @@ import {HttpClientModule} from '@angular/common/http'
     AppRoutingModule,
     LayoutModule,
     CategoriesModule,
-    HttpClientModule
+    HttpClientModule,
+    SweetAlert2Module.forRoot()
+
   ],
   providers: [],
   bootstrap: [AppComponent]
