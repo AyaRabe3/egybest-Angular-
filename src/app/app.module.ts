@@ -9,6 +9,7 @@ import { AddCategoryComponent } from './modules/pages/categories/add-category/ad
 import { CategoriesModule } from './modules/pages/categories/categories.module';
 import {HttpClientModule} from '@angular/common/http'
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,9 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     LayoutModule,
     CategoriesModule,
     HttpClientModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    FormsModule,
+    ReactiveFormsModule
 
   ],
   providers: [],

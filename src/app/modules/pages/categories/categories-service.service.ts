@@ -18,5 +18,8 @@ export class CategoriesServiceService {
     // let id =new HttpParams().set('categoryId',categoryId)
     return this.http.delete(`${URI}${categoryId}`)
   }
-  // 610504ea88e53b3a8c65aa56
+
+  addCategory(category:{}){
+    return this.http.post(`${URI}/addCat`,category)
+  }
 }
