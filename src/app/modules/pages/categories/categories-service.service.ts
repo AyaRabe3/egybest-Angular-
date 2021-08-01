@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
-const URI="localhost:4402";
+// import {URI} from '';
+const URI="http://localhost:4402/";
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesServiceService {
   constructor(private http:HttpClient) { }
    getAllCategories(){
-   return this.http.get("http://localhost:4402/category/getCategories")
+   return this.http.get(`${URI}category/getCategories`)
   }
 
   getCategoryById(categoryId:string){
