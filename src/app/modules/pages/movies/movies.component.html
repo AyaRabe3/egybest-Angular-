@@ -51,7 +51,7 @@
                     <td>{{m.name}}</td>
                     <td>{{m.categoryName}}</td>
                     <td ><i class="fas fa-edit text-info" routerLink="edit"></i></td>
-                    <td><i class="fas fa-trash-alt text-danger"></i></td>
+                    <td><i class="fas fa-trash-alt text-danger" (click)="confirmBoxOfDelete(m.id)"></i></td>
                   </tr>
                 </tbody>
               </table>

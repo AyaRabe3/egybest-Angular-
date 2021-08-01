@@ -23,27 +23,6 @@ export class CategoriesComponent implements OnInit {
   ): void {
     this.getCategoriesFromServer();
   }
-  confirmBoxOfDelete(id:string){  
-    Swal.fire({  
-      title: 'Are you sure want to remove?',  
-      text: 'You will not be able to recover this file!',  
-      icon: 'warning',  
-      showCancelButton: true,  
-      confirmButtonText: 'Yes, delete it!',  
-      cancelButtonText: 'No, keep it'  
-    }).then((result) => {  
-      if (result.value) {  
-        this.deleteCategory(id)
-      } else if (result.dismiss === Swal.DismissReason.cancel) {  
-        Swal.fire(  
-          'Cancelled',  
-          'Your imaginary file is safe :)',  
-          'error'  
-        )  
-      }  
-    })  
-  } 
-  
 
   getCategoriesFromServer():any{
     this.service.getAllCategories().subscribe((res)=>
@@ -56,16 +35,29 @@ export class CategoriesComponent implements OnInit {
   
   deleteCategory(id:string){
     console.log(this.categoriesList)
-   
     this.service.deleteCategoryById(id).subscribe((res)=>{
       console.log("categories from server",res)
         this.getCategoriesFromServer();
-
+        // this.ngOnInit(); //reload the table
     },
     (error)=>{console.log(error)}
     )
   }
+  confirmBoxOfDelete(id:string){  
+    Swal.fire({  
+      title: 'Are you sure want to remove this category?',  
+      text: 'You will not be able to recover this category again!',  
+      icon: 'warning',  
+      showCancelButton: true,  
+      confirmButtonText: 'Yes, delete it!',  
+      cancelButtonText: 'No, keep it'  
+    }).then((result) => {  
+      if (result.value) {  
+        this.deleteCategory(id)
+      } 
+    })  
+  } 
+  
 
-    // categoriesList =this.getCategoriesFromServer();
 
 }

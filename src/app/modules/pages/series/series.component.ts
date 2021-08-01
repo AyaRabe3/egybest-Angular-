@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SeriesServiceService } from './series-service.service';
+import Swal from 'sweetalert2';
+
 
 export class Series{
   constructor(
@@ -29,5 +31,30 @@ export class SeriesComponent implements OnInit {
     console.log(error)
   })
 }
+
+deleteSeries(id:string){
+  this.service.deleteSeries(id).subscribe((res)=>{
+    this.ngOnInit()
+  },(error)=>{
+    console.log(error)
+  }
+  )
+}
+
+
+confirmBoxOfDelete(id:string){  
+  Swal.fire({  
+    title: 'Are you sure want to remove this a series?',  
+    text: 'You will not be able to recover this a series again!',  
+    icon: 'warning',  
+    showCancelButton: true,  
+    confirmButtonText: 'Yes, delete it!',  
+    cancelButtonText: 'No, keep it'  
+  }).then((result) => {  
+    if (result.value) {  
+      this.deleteSeries(id)
+    } 
+  })  
+} 
 
 }
