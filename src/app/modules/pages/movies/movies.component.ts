@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { MoviesServiceService } from './movies-service.service';
 import { CategoriesServiceService } from '../categories/categories-service.service';
 import Swal from 'sweetalert2';
@@ -16,7 +16,7 @@ export class Movies{
 })
 export class MoviesComponent implements OnInit {
   moviesList :Movies[]|any;
-
+  
   constructor( private service:MoviesServiceService) { }
 
   ngOnInit(): void {

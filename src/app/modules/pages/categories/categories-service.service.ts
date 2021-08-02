@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders,HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
 const URI="http://localhost:4402/category/";
 @Injectable({
   providedIn: 'root'

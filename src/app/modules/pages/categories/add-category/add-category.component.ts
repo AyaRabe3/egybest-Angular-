@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoriesServiceService } from '../categories-service.service';
 
@@ -8,6 +8,7 @@ import { CategoriesServiceService } from '../categories-service.service';
   styleUrls: ['./add-category.component.scss']
 })
 export class AddCategoryComponent implements OnInit {
+
   // for remember You must use 'Definite Assignment Assertion' to tell typescript that this variable will have a value at runtime as follows
   categoryForm: FormGroup|any ;
   submitted = false;

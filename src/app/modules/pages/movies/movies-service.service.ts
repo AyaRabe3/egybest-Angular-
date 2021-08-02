@@ -15,4 +15,7 @@ export class MoviesServiceService {
   deleteMovie(id:string){
     return this.http.delete(`${URI}${id}`)
   }
+  addMovie(movie:{}){
+    return this.http.post(`${URI}addMovie`,movie)
+  }
 }
