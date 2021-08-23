@@ -5,33 +5,36 @@
       </h5>
     </div>
     <div class="card-body">
+      <form [formGroup]="searchForm" (ngSubmit)="onSubmitSearch()">
         <div class=" row d-flex">
           <div class="col-md-4">
             <div class="form-group form-group-sm">
               <label for="exampleInputEmail1"> A Series Name</label>
-              <input type="email" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <input pattern="[A-Za-z0-9]+" type="text" formControlName="name" (keyup)="onKeyUpSearch($event)" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group form-group-sm">
                 <label for="inputState">Category Name</label>
-                <select id="inputState" class="form-control form-control-sm">
-                  <option selected>first</option>
-                  <option>second</option>
+                <select formControlName="categoryId" id="inputState" (change)="onChange()" class="form-control form-control-sm">
+                  <option selected disabled>all</option>
+                  <option  *ngFor="let s of categoryList ,index as x" [ngValue]="s._id">{{s.name}}</option>
                 </select>
               </div>
         </div>
           <div class="col-4 align-self-center">
             <div class="">
               <button type="submit" class="btn btn-sm btn-outline-primary  mx-2 mt-3">search <i class="fas fas-sm fa-search mt-1"></i></button>
+              <button type="button" class="btn btn-sm btn-secondary  mx-2 mt-3" (click)="cancelSearch()"> cancel</button>
             </div>
           </div>
         </div>
+      </form>
     
         <div class="d-flex justify-content-between">
           <div></div>
         <div class="my-3">
-          <button class="btn btn-sm btn-primary" routerLink="add"> <i class="fas fa-plus mx-1"></i>Add Category</button>
+          <button class="btn btn-sm btn-primary" routerLink="add"> <i class="fas fa-plus mx-1"></i>Add A Series</button>
         </div>
         </div>
         <div class="row">
@@ -50,7 +53,7 @@
                     <th scope="row">{{i+1}}</th>
                     <td>{{s.name}}</td>
                     <td>{{s.categoryName}}</td>
-                    <td ><i class="fas fa-edit text-info" routerLink="edit"></i></td>
+                    <td ><i class="fas fa-edit text-info" [routerLink]="['edit',s.id]"></i></td>
                     <td><i class="fas fa-trash-alt text-danger" (click)="confirmBoxOfDelete(s.id)"></i></td>
                   </tr>
                 </tbody>

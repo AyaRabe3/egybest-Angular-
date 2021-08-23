@@ -18,7 +18,7 @@ const routes: Routes = [
         component: AddSeriesComponent,
       },
       {
-        path: 'edit', 
+        path: 'edit/:id', 
         component: EditSeriesComponent,
       },
       { path: '**', component: HomeComponent }

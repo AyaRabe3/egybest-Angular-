@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-const URI="http://localhost:4402/movies/"
+import { environment } from 'src/environments/environment';
+import { Movie } from 'src/app/interfaces/movie';
+import { Observable } from 'rxjs/internal/Observable';
+const URI=`${environment.URI}/movies/`;
 @Injectable({
   providedIn: 'root'
 })
@@ -18,4 +21,14 @@ export class MoviesServiceService {
   addMovie(movie:{}){
     return this.http.post(`${URI}addMovie`,movie)
   }
+  search(name?:string,categoryId?:string){
+    return this.http.post(`${URI}search/${name}`,{categoryId:categoryId})
+  }
+
+  getMovieById(id:string):Observable<Movie>{
+    return this.http.get<Movie>(`${URI}${id}`)
+  } 
+  updateMovie(id:string,newMovie:{}){
+    return this.http.patch(`${URI}Edit/${id}`,newMovie)
+  } 
 }

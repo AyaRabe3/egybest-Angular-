@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders,HttpParams } from '@angular/common/http';
-const URI="http://localhost:4402/category/";
+import {environment} from "src/environments/environment"
+import { Observable } from 'rxjs';
+import { Category } from 'src/app/interfaces/Category';
+const URI=`${environment.URI}/category/`;
 @Injectable({
   providedIn: 'root'
 })
@@ -10,12 +13,10 @@ export class CategoriesServiceService {
    return this.http.get(`${URI}getCategories`)
   }
 
-  getCategoryById(categoryId:string){
-    let id =new HttpParams().set('categoryId',categoryId)
-    return this.http.get(`${URI}${id}`)
+  getCategoryById(categoryId:string):Observable<Category>{
+    return this.http.get<Category>(`${URI}${categoryId}`)
   }
   deleteCategoryById(categoryId:string){
-    // let id =new HttpParams().set('categoryId',categoryId)
     return this.http.delete(`${URI}${categoryId}`)
   }
 
@@ -26,30 +27,11 @@ export class CategoriesServiceService {
   }
 
   editCategory(id:string, data:{}) {
-    return this.http.patch(`${URI}/${id}`, data);
+    return this.http.patch(`${URI}Edit/${id}`, data);
   }
 
+  search(name:string){
+   return this.http.get(`${URI}search/${name}`)
+  }
 
-
-
-  // read(id:string): Observable<any> {
-  //   return this.http.get(`${URI}/${id}`);
-  // }
-
-  // create(data): Observable<any> {
-  //   return this.http.post(URI, data);
-  // }
-
-
-  // delete(id): Observable<any> {
-  //   return this.http.delete(`${URI}/${id}`);
-  // }
-
-  // deleteAll(): Observable<any> {
-  //   return this.http.delete(URI);
-  // }
-
-  // searchByName(name): Observable<any> {
-  //   return this.http.get(`${URI}?name=${name}`);
-  // }
 }

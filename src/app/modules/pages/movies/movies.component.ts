@@ -2,25 +2,36 @@ import { Component, OnInit,Input } from '@angular/core';
 import { MoviesServiceService } from './movies-service.service';
 import { CategoriesServiceService } from '../categories/categories-service.service';
 import Swal from 'sweetalert2';
-export class Movies{
-  constructor(
-    public id:string,
-    public movieName:string,
-    public categoryId:string
-  ){}
-}
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Category } from 'src/app/interfaces/Category';
+import { Movie } from 'src/app/interfaces/movie';
+
 @Component({
   selector: 'app-movies',
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.scss']
 })
 export class MoviesComponent implements OnInit {
-  moviesList :Movies[]|any;
+  moviesList :Movie[]|any;
+  submitted = false;
+  categories:Category[]|any;
+  searchForm: FormGroup|any ;
+ 
+  constructor( 
+    private service:MoviesServiceService,
+    private formBuilder: FormBuilder,
+    private _categoriesService:CategoriesServiceService,
+    private router: Router
+    ) { }
   
-  constructor( private service:MoviesServiceService) { }
-
   ngOnInit(): void {
     this.getMoviesFromServer()
+    this.getCategories();
+    this.searchForm = this.formBuilder.group({
+      name: ['',   [Validators.pattern('^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$')]],
+      categoryId:['',Validators.minLength(2)]
+  })
   }
   getMoviesFromServer(){
     this.service.getAllMovies().subscribe((res)=>{
@@ -30,7 +41,6 @@ export class MoviesComponent implements OnInit {
     console.log(error)
     })
   }
-
 
   deleteMovie(id:string){
    this.service.deleteMovie(id).subscribe((res)=>
@@ -56,5 +66,65 @@ export class MoviesComponent implements OnInit {
       } 
     })  
   } 
+
   
+  getCategories(){
+      this._categoriesService.getAllCategories().subscribe((res)=>{
+      this.categories=res
+      console.log("form movie add",this.categories)
+    })
+  }
+  get f() { return this.searchForm.controls; }
+ 
+    onReset() {
+    this.submitted = false;
+    this.searchForm.reset();
+        }
+
+    onCategoryChange(){
+        // this.search();
+        let  formId=this.searchForm.value.categoryId;
+        if(this.searchForm.valid){
+        this.service.search("",formId).subscribe((res)=>{
+          console.log("ressss from search",res)
+          this.moviesList=res
+        })
+      }
+      }
+      
+      // search(){
+      //   this.service.search(this.searchForm.value.categoryId).subscribe((res)=>{
+      //     console.log("ressss from search",res)
+      //     this.moviesList=res
+      //   })
+      // }
+      
+      onKeyUpSearch(event: KeyboardEvent){
+        let formName=this.searchForm.value.name;
+        var inp = String.fromCharCode(event.keyCode);
+          console.log("event",event)
+          if(this.searchForm.valid){
+            this.service.search(formName,"").subscribe((res)=>{
+              console.log("ressss from search",res)
+              this.moviesList=res
+            })
+            // event.preventDefault();
+          }
+      }
+      
+      onSubmitSearch(){
+        let formName=this.searchForm.value.name;
+        let  formId=this.searchForm.value.categoryId;
+        if(this.searchForm.valid){
+        this.service.search(formName,formId).subscribe((res)=>{
+          console.log("ressss from search",res)
+          this.moviesList=res
+        })  
+      }
+      }
+      cancelSearch(){
+        this.getMoviesFromServer()
+        this.searchForm.reset();
+      }
+
 }

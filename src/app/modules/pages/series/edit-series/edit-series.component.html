@@ -1,33 +1,45 @@
-<div class="card shadow border-0 w-80">
-    <div class="card-header border-0">
-      <h5>
-       Edit a series
-      </h5>
-    </div>
-    <div class="card-body">
-        <div class=" row d-flex">
-            <div class="col-md-6">
-              <div class="form-group form-group-sm">
-                <label for="exampleInputEmail1">a series name</label>
-                <input type="email" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+<form [formGroup]="seriesToEditForm" (ngSubmit)="onSubmitEdit()">
+  <div class="card shadow border-0 w-80">
+      <div class="card-header border-0">
+        <h5>
+         Edit a series
+        </h5>
+      </div>
+      <div class="card-body">
+          <div class=" row d-flex">
+              <div class="col-md-6">
+                <div class="form-group form-group-sm">
+                  <label for="exampleInputEmail1">a series name</label>
+                  <input type="text" formControlName="name" 
+                  class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  [ngClass]="{
+                    'is-invalid':!f.name.valid && f.name.touched,
+                    'is-valid':f.name.valid && f.name.touched
+                      }">
+                </div>
               </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="inputState">Category Name</label>
-                    <select id="inputState" class="form-control">
-                      <option selected>first</option>
-                      <option>second</option>
-                    </select>
-                  </div>
-            </div>
-        </div>
-    </div>
-    <div class="card-footer border-0">
-            <div class="">
-              <button type="submit" class="btn btn-sm btn-primary  mx-2 ">save</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary  mx-2 " routerLink="/series">cancel</button>
-            </div>
-    </div>
-    </div>
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label for="inputState">Category Name</label>
+                      <select id="inputState" formControlName="categoryId" class="form-control"
+                      [ngClass]="{
+                        'is-invalid':!f.categoryId.valid && f.categoryId.touched,
+                        'is-valid':f.categoryId.valid && f.categoryId.touched
+                          }">
+                        <option *ngFor="let c of categories" [value]="c._id">
+                          {{ c.name }}
+                        </option>                      
+                      </select>
+                    </div>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer border-0">
+              <div class="">
+                <button type="submit" class="btn btn-sm btn-primary  mx-2 ">save</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary  mx-2 " routerLink="/series">cancel</button>
+              </div>
+      </div>
+      </div>
+</form>
 

@@ -1,28 +1,26 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { CategoriesServiceService } from './categories-service.service';
-import { SwalPortalTargets } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
-export class Categories{
-  constructor(
-    public id:string,
-    public name:string,
-    )
-    {}
-}
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Category } from '../../../interfaces/Category';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-  categoriesList : Categories[] | any;
-  constructor(private service :CategoriesServiceService ,public readonly swalTargets: SwalPortalTargets) { }
-  ngOnInit(
-    
-    ): void {
+  categoriesList : Category[] | any;
+  searchForm:FormGroup[]|any;
+  constructor(
+    private service :CategoriesServiceService ,
+    private builder:FormBuilder
+    ) { }
+  ngOnInit(): void {
       this.getCategoriesFromServer();
-    }
+      this.searchForm=this.builder.group({
+       name:['',[Validators.pattern('^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$')]]
+      })
+    } 
     
     getCategoriesFromServer():any{
       this.service.getAllCategories().subscribe((res)=>
@@ -59,5 +57,29 @@ export class CategoriesComponent implements OnInit {
   } 
   
 
+  confirmSearch(){
+    if(this.searchForm.valid)
+    {
+       this.service.search(this.searchForm.value.name).subscribe((res)=>
+       {
+          console.log("res search",res)
+          this.categoriesList=res
+       })
+    }
+  }
 
+onKeyUpSearch(){
+  if(this.searchForm.valid)
+    {
+       this.service.search(this.searchForm.value.name).subscribe((res)=>
+       {
+          console.log("res search",res)
+          this.categoriesList=res
+       })
+    }
+}
+cancelSearch(){
+  this.getCategoriesFromServer();
+  this.searchForm.reset();
+}
 }

@@ -1,16 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SeriesServiceService } from './series-service.service';
 import Swal from 'sweetalert2';
+import { CategoriesServiceService } from '../categories/categories-service.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Category } from 'src/app/interfaces/Category';
+import { Series } from 'src/app/interfaces/series';
 
 
-export class Series{
-  constructor(
-    public id:string,
-    public name:string,
-    public categoryId:string,
-    public categoryName:string
-  ){}
-} 
 @Component({
   selector: 'app-series',
   templateUrl: './series.component.html',
@@ -18,10 +14,27 @@ export class Series{
 })
 export class SeriesComponent implements OnInit {
   seriesList :Series[]|any;
-  constructor(private service:SeriesServiceService) { }
+  categoryList:Category[] |any;
+  searchForm: FormGroup|any ;
+
+  constructor(
+    private service:SeriesServiceService,
+    private _categoriesService :CategoriesServiceService,
+    private formBuilder: FormBuilder
+    ) { }
 
   ngOnInit(): void {
     this.getSeriesFromServer()
+    this._categoriesService.getAllCategories().subscribe((res)=>{
+    this.categoryList=res
+    })
+    
+    this.searchForm=this.formBuilder.group
+    ({
+      // name: ['',  Validators.pattern('^[a-zA-Z \-\']+')],
+      name: ['',  [Validators.pattern('^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$')]],
+      categoryId:['',Validators.minLength(2)]
+    })
   }
 
   getSeriesFromServer(){
@@ -56,5 +69,60 @@ confirmBoxOfDelete(id:string){
     } 
   })  
 } 
+
+//search area//
+get f() { return this.searchForm.controls; }
+
+onChange(){
+  console.log("hi", this.searchForm.value.categoryId)
+  console.log("hi", this.searchForm.value)
+  // this.search();
+  if (this.searchForm.valid) 
+  {
+  this.service.search("",this.searchForm.value.categoryId).subscribe((res)=>{
+    console.log("ressss from search",res)
+    this.seriesList=res
+  })
+}
+}
+
+search(){
+  this.service.search(this.searchForm.value.categoryId).subscribe((res)=>{
+    console.log("ressss from search",res)
+    this.seriesList=res
+  })
+}
+
+onKeyUpSearch(event: KeyboardEvent){
+  var inp = String.fromCharCode(event.keyCode);
+  // if (/[a-zA-z]/.test(inp)==true) {
+    console.log("event",event)
+    if (this.searchForm.valid) 
+    {
+    this.service.search(this.searchForm.value.name,"").subscribe((res)=>{
+      console.log("ressss from search",res)
+      this.seriesList=res
+    })
+     }
+    event.preventDefault();
+  // }
+}
+
+
+onSubmitSearch(){
+  if (this.searchForm.valid) 
+        {
+          this.service.search(this.searchForm.value.name,this.searchForm.value.categoryId).subscribe((res)=>{
+            console.log("ressss from search",res)
+            this.seriesList=res
+          })  
+  
+        }
+}
+cancelSearch(){
+  this.getSeriesFromServer()
+  this.searchForm.reset();
+}
+
 
 }

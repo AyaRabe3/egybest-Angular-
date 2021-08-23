@@ -1,24 +1,32 @@
 
-<div class="card shadow border-0 w-80">
-    <div class="card-header border-0">
-      <h5>
-       Edit Category
-      </h5>
-    </div>
-    <div class="card-body">
-        <div class=" row d-flex">
-            <div class="col-6">
-              <div class="form-group form-group-sm">
-                <label for="exampleInputEmail1">Category Name</label>
-                <input type="email" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+<form [formGroup]="editCategoryForm" (ngSubmit)="onSubmitEdit()">
+  <div class="card shadow border-0 w-80">
+      <div class="card-header border-0">
+        <h5>
+         Edit Category
+        </h5>
+      </div>
+      <div class="card-body">
+          <div class=" row d-flex">
+              <div class="col-6">
+                <div class="form-group form-group-sm">
+                  <label for="exampleInputEmail1">Category Name</label>
+                  <input type="text" formControlName="name"  
+                  class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  [ngClass]="{
+                    'is-invalid':!f.name.valid && f.name.touched,
+                    'is-valid':f.name.valid && f.name.touched
+                     }">           
+                      <small *ngIf="f.name.errors " class="text-danger">name is required ,please fill this field</small> 
+                </div>
               </div>
-            </div>
-        </div>
-    </div>
-    <div class="card-footer border-0">
-            <div class="">
-                <button type="submit" class="btn btn-sm btn-primary  mx-2 ">save</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary  mx-2"routerLink="/categories">cancel</button>
-            </div>
-    </div>
-    </div>
+          </div>
+      </div>
+      <div class="card-footer border-0">
+              <div class="">
+                  <button type="submit" class="btn btn-sm btn-primary mx-2">save</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary mx-2"routerLink="/categories">cancel</button>
+              </div>
+      </div>
+      </div>
+</form>

@@ -1,3 +1,5 @@
+
+<form [formGroup]="seriesForm" (ngSubmit)="onSubmit()">
 <div class="card shadow border-0 w-80">
     <div class="card-header border-0">
       <h5>
@@ -8,18 +10,29 @@
         <div class=" row d-flex">
             <div class="col-md-6">
               <div class="form-group form-group-sm">
-                <label for="exampleInputEmail1">a series name</label>
-                <input type="email" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
-              </div>
+                <label for="exampleInputEmail1">Movie Name</label>
+                <input  formControlName="name" type="text" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp"
+                [ngClass]="{
+                  'is-invalid':!f.name.valid && f.name.touched,
+                  'is-valid':f.name.valid && f.name.touched
+                    }">      
+                <small *ngIf="f.name.touched&& f.name.errors" class="text-danger">name is required ,and must contain characters and numbers only</small> 
+                <small *ngIf="submitted && f.name.errors " class="text-danger">name is required ,and must contain characters and numbers only</small> 
+                </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="inputState">Category Name</label>
-                    <select id="inputState" class="form-control">
-                      <option selected>first</option>
-                      <option>second</option>
-                    </select>
-                  </div>
+              <div class="form-group form-group-sm">
+                <label for="inputState">Category Name</label>
+                <select formControlName="categoryId"  id="inputState" class="form-control form-control-sm"  
+                [ngClass]="{
+                  'is-invalid':submitted||!f.categoryId.valid && f.categoryId.touched,
+                  'is-valid':submitted||f.categoryId.valid && f.categoryId.touched
+                    }" (change)="onCategoryChange()">
+                <option [ngValue]="null" selected disabled>all</option>
+                <option *ngFor="let c of categories ,index as x" [ngValue]="c._id" >{{c.name}}</option>
+                </select>
+                <small *ngIf="submitted && f.name.errors " class="text-danger">category is required ,please fill this field</small>        
+              </div>
             </div>
         </div>
     </div>
@@ -30,4 +43,4 @@
             </div>
     </div>
     </div>
-
+  </form>
